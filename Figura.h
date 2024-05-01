@@ -42,11 +42,12 @@ class Figura
 public:
     Inicialitza_Figura(TipusFigura t);
     Inicialitza_Figura_Tipus(TipusFigura t, int col, const int& fil);
-    getPosicioActual(const int& n) const { return = m_Posicio_actual[n] };
-    getTamanyFigura(const int& n) { return = m_TamanyFigura[n] };
+    int getPosicioActual(const int& n) const { return = m_Posicio_actual[n] };
+    int getTamanyFigura(const int& n) { return = m_TamanyFigura[n] };
     void GirarFigura(DireccioGir DirGir);
     void mouFigura(int Direccio); // -1 = esquerra, +1 Dreta;
     void BaixaFigura();
+    void PujaFigura();
     void FormaZero();
 
 private:

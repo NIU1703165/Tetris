@@ -181,6 +181,13 @@ void Figura::GirarFigura(DireccioGir DirGir)
 	}
 	
 }
+
+
+void Figura::PujaFigura()
+{
+	m_Posicio_actual[0] -= 1;
+}
+
 void Figura::BaixaFigura()
 {
 	m_Posicio_actual[0] += 1;
