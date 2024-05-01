@@ -116,48 +116,71 @@ Figura::Inicialitza_Figura(TipusFigura t)
 
 void Figura::GirarFigura(DireccioGir DirGir)
 {
-	if (DirGir == 0) //Gir Horari
+	if (m_TamanyFigura[0] == 4)
 	{
-		int c_matriu[3][3];
-
-		for (int i = 0; i < 3; i++)
+		if (DirGir == 0) //Gir Horari
 		{
-			for (int j = 0; j < 3; j++)
+			int c_matriu[m_TamanyFigura[0]][m_TamanyFigura[0];
+
+			for (int i = 0; i < m_TamanyFigura[0]; i++)
 			{
-				c_matriu[i][j] = proba[i][j];
+				for (int j = 0; j < m_TamanyFigura[0]; j++)
+				{
+					c_matriu[i][j] = m_HitBoxFigura[i][j];
+				}
+			}
+
+			for (int i = 0; i < m_TamanyFigura[0]; i++)
+			{
+				for (int j = 0; j < m_TamanyFigura[0]; j++)
+				{
+					m_HitBoxFigura[i][j] = c_matriu[(m_TamanyFigura[0] - 1) - j][i];
+				}
 			}
 		}
-
-		for (int i = 0; i < 3; i++)
+		else //Gir AntiHorari
 		{
-			for (int j = 0; j < 3; j++)
+			int c_matriu[m_TamanyFigura[0]][m_TamanyFigura[0]];
+
+			for (int i = 0; i < m_TamanyFigura[0]; i++)
 			{
-				proba[i][j] = c_matriu[2 - j][i];
+				for (int j = 0; j < m_TamanyFigura[0]; j++)
+				{
+					c_matriu[i][j] = m_HitBoxFigura[i][j];
+				}
+			}
+
+			for (int i = 0; i < m_TamanyFigura[0]; i++)
+			{
+				for (int j = 0; j < m_TamanyFigura[0]; j++)
+				{
+					m_HitBoxFigura[i][j] = c_matriu[j][(m_TamanyFigura[0] - 1) - i];
+				}
 			}
 		}
 	}
-	else //Gir AntiHorari
+	else
 	{
-		int c_matriu[3][3];
+		int c_matriu[m_TamanyFigura[0]][m_TamanyFigura[0]];
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < m_TamanyFigura[0]; i++)
 		{
-			for (int j = 0; j < 3; j++)
+			for (int j = 0; j < m_TamanyFigura[0]; j++)
 			{
-				c_matriu[i][j] = proba[i][j];
+				c_matriu[i][j] = m_HitBoxFigura[i][j];
 			}
 		}
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < m_TamanyFigura[0]; i++)
 		{
-			for (int j = 0; j < 3; j++)
+			for (int j = 0; j < m_TamanyFigura[0]; j++)
 			{
-				proba[i][j] = c_matriu[j][2 - i];
+				m_HitBoxFigura[i][j] = c_matriu[Tamany - 1 - j][i];
 			}
 		}
 	}
+	
 }
-
 void Figura::BaixaFigura()
 {
 	m_Posicio_actual[0] += 1;
