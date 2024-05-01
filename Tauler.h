@@ -23,7 +23,7 @@ public:
 private:
 
     int nFiles, nColumnes;
-    int tauler[MAX_FILA][MAX_COL];
+    int m_tauler[MAX_FILA][MAX_COL];
     bool filaCompleta(int fila) const;
 
 };
