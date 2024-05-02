@@ -33,38 +33,53 @@ bool Joc::giraFigura(DireccioGir direccio)
 {
     m_Figura_a.GirarFigura(direccio);
 
-    bool girValid = m_Tauler.xoca(m_Figura_a);
-    if (!girValid)
+    bool girValid = m_Tauler.Xoca(m_Figura_a);
+    if (girValid)
     {
         if (direccio == GIR_HORARI)
+        {
             direccio = GIR_ANTI_HORARI;
-        else
+        }
+         else
+         {
             direccio = GIR_HORARI;
+         }
+       
         m_Figura_a.GirarFigura(direccio);
     }
-    return girValid;
+    return !girValid;
 }
 
 bool Joc::mouFigura(int direccio)
 {
     m_Figura_a.mouFigura(direccio);
-    bool movimentValid = m_Tauler.xoca(m_Figura_a);
-    if (!movimentValid)
+   
+    bool movimentValid = m_Tauler.Xoca(m_Figura_a);
+    
+    if (movimentValid)
+    {
         m_Figura_a.mouFigura(-direccio);
-    return movimentValid;
+    }
+    
+    return !movimentValid;
 }
 
 int Joc::baixaFigura()
 {
-    int nFiles = 0;
+    int FilesComplertes = 0;
     m_Figura_a.BaixaFigura();
-    if (!m_Tauler.xoca(m_Figura_a))
+    
+    if (m_Tauler.Xoca(m_Figura_a))
     {
         m_Figura_a.PujaFigura();
-        nFiles = m_Tauler.colocaFigura(m_Figura_a);
-        m_Figura_a.Inicialitza_Figura(NO_FIGURA);
+        m_Tauler.colocaFigura(m_Figura_a);
+        FilesComplertes = m_Tauler.getFilesCompletes();
+        m_Figura_a.Inicialitza_Figura_Tipus(NO_FIGURA, -1, -1);
     }
-    return nFiles;
+    
+    m_Tauler.ElimiarFilesComplertes();
+    
+    return FilesComplertes;
 }
 
 void Joc::escriuTauler(const string& nomFitxer)
@@ -73,12 +88,12 @@ void Joc::escriuTauler(const string& nomFitxer)
     fitxer.open(nomFitxer);
     if (fitxer.is_open())
     {
-        if (m_Figura_a.getTipus() != NO_FIGURA)
+        if (m_Figura_a.getTipusFigura() != NO_FIGURA)
             m_Tauler.colocaFigura(m_Figura_a);
 
         int tauler[MAX_FILA][MAX_COL];
 
-        m_Tauler.getValorsTauler(tauler);
+        m_Tauler.getTauler(tauler);
         for (int i = 0; i < MAX_FILA; i++)
         {
             for (int j = 0; j < MAX_COL; j++)
@@ -91,3 +106,4 @@ void Joc::escriuTauler(const string& nomFitxer)
         fitxer.close();
     }
 }
+
