@@ -46,7 +46,9 @@ public:
     void Inicialitza_Figura_Tipus(TipusFigura t, int col, const int& fil);
     int getPosicioActual(const int& n) const { return m_Posicio_actual[n]; }
     int getTamanyFigura(const int& n) const { return m_TamanyFigura[n]; }
-    void getHitboxFigura(int& hitbox[MAX_AMPLADA][MAX_ALCADA]);
+    int getHitboxFigura(int x, int y) const { return m_HitBoxFigura[x][y]; }
+    int getColor() const { return m_ColorFigura; }
+    int getTipusFigura() const {return m_TipusFigura; }
     void GirarFigura(int DirGir);
     void mouFigura(int Direccio); // -1 = esquerra, +1 Dreta;
     void BaixaFigura();
@@ -54,7 +56,7 @@ public:
     void FormaZero();
 
 private:
-    TipusFigura m_TpusFigura;
+    TipusFigura m_TipusFigura;
     ColorFigura m_ColorFigura;
     int m_HitBoxFigura[MAX_ALCADA][MAX_AMPLADA];
     int m_Posicio_actual[2]; // [0] = posicio_fila, [1] = posicio_columne;
