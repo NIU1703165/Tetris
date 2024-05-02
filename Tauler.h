@@ -8,16 +8,14 @@ const int MAX_COL = 8;
 class Tauler
 {
 public:
-    Tauler(int files, int columnes);
+    Tauler();
     void inicialitza(int taulerInicial[MAX_FILA][MAX_COL]);
     bool colocaFigura(Figura figura);
-    bool girValid(const Figura& figura) const;
-    bool movimentValid(const Figura& figura) const;
+    bool Xoca(const Figura& figura);
     void eliminarFilesCompletes();
-
+    
 private:
-    int nFiles, nColumnes;
-    int tauler[MAX_FILA][MAX_COL];
+    int m_tauler[MAX_FILA + 2][MAX_COL + 4];
     void eliminarFila(int fila);
     int filaCompleta() const;
 };
