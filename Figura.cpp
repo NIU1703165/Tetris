@@ -99,6 +99,17 @@ void Figura::Inicialitza_Figura(TipusFigura t)
     }
 }
 
+void Figura::getHitboxFigura(hitbox[MAX_AMPLADA][MAX_ALCADA])
+{
+    for(int i = 0; i < MAX_AMPLADA; i++)
+    {
+       for(int j = 0; j < MAX_ALCADA; j++)
+        {
+            hitbox[i][j] = m_HitBoxFigura[i][j];
+        }
+    }
+}
+
 void Figura::GirarFigura(int DirGir)
 {
     if (DirGir == 0) //Gir Horari
