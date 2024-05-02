@@ -46,6 +46,7 @@ public:
     void Inicialitza_Figura_Tipus(TipusFigura t, int col, const int& fil);
     int getPosicioActual(const int& n) const { return m_Posicio_actual[n]; }
     int getTamanyFigura(const int& n) const { return m_TamanyFigura[n]; }
+    void getHitboxFigura(int& hitbox);
     void GirarFigura(int DirGir);
     void mouFigura(int Direccio); // -1 = esquerra, +1 Dreta;
     void BaixaFigura();
