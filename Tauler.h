@@ -10,14 +10,17 @@ class Tauler
 public:
     Tauler();
     void inicialitza(int taulerInicial[MAX_FILA][MAX_COL]);
-    bool colocaFigura(Figura figura);
-    bool Xoca(const Figura& figura);
-    void eliminarFilesCompletes();
-    
+    void colocaFigura(const Figura& figura);
+    bool Xoca(Figura figura);
+    void ElimiarFilesComplertes();
+    void getTauler(int tauler[MAX_FILA][MAX_COL]);
+    int getFilesCompletes() const;
+
 private:
     int m_tauler[MAX_FILA + 2][MAX_COL + 4];
     void eliminarFila(int fila);
     int filaCompleta() const;
+    
 };
 
 #endif
