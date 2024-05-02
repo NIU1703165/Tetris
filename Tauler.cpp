@@ -1,15 +1,34 @@
 #include "Tauler.h"
 
-Tauler::Tauler(int files, int columnes)
+Tauler::Tauler()
 {
-    nFiles = files;
-    nColumnes = columnes;
-
-    for (int i = 0; i < nFiles; i++)
+    for (int i = 0; i < MAX_FILA; i++)
     {
-        for (int j = 0; j < nColumnes; j++)
+        m_tauler[i][0] = -1;
+        m_tauler[i][1] = -1;
+        m_tauler[i][MAX_COL + 2] = -1;
+        m_tauler[i][MAX_COL + 3] = -1;
+
+        for (int j = 0; j < MAX_COL; j++)
         {
-            tauler[i][j] = 0;
+            m_tauler[i][j + 2] = 0;
+        }
+    }
+    
+    for (int j = 0; j < MAX_COL + 4; j++)
+    {
+        m_tauler[MAX_FILA][j] = -1;
+        m_tauler[MAX_FILA + 1][j] = -1;
+    }
+}
+
+void Tauler::inicialitza(int taulerInicial[MAX_FILA][MAX_COL])
+{
+    for (int i = 0; i < MAX_FILA; i++)
+    {
+        for (int j = 0; j < MAX_COL; j++)
+        {
+            m_tauler[i][j + 2] = taulerInicial[i][j]; 
         }
     }
 }
@@ -18,81 +37,42 @@ void Tauler::eliminarFila(int fila)
 {
     for (int i = fila; i > 0; --i)
     {
-        for (int j = 0; j < nColumnes; ++j)
+        for (int j = 0; j < MAX_COL ++j)
         {
-            tauler[i][j] = tauler[i - 1][j];
+            m_tauler[i][j + 2] = m_tauler[i - 1][j + 2];
         }
     }
 
-    for (int j = 0; j < nColumnes; j++)
+    for (int j = 0; j < MAX_COL; j++)
     {
         tauler[0][j] = 0;
     }
 }
 
-bool Tauler::colocaFigura(Figura figura)
+bool Tauler::colocaFigura(const Figura& figura)
 {
     int color = figura.getColor();
     int posiciofigura[2];
-    int tamanyfigura[2];
+    int hitbox[MAX_AMPLADA][MAX_ALCADA];
+    figura.getHitboxFigura(hitbox);
 
-    posiciofigura[0] = figura.getPosicioActual(0);  //fila
-    posiciofigura[1] = figura.getPosicioActual(1);  //columna
+    posiciofigura[0] = figura.getPosicioActual(0);
+    posiciofigura[1] = figura.getPosicioActual(1);
 
-    tamanyfigura[0] = figura.getTamanyFigura(0);   //x
-    tamanyfigura[1] = figura.getTamanyFigura(1);   //y
-
-    for (int i = 0; i < tamanyfigura[0]; i++)
+    for (int i = 0; i < MAX_AMPLADA; i++)
     {
-        for (int j = 0; j < tamanyfigura[1]; j++)
+        for (int j = 0; j < MAX_ALCADA; j++)
         {
-            int fila = posiciofigura[0] + i;
-            int columna = posiciofigura[1] + j;
-
-            if (fila >= 0 && fila < nFiles && columna >= 0 && columna < nColumnes)
+            if (hitbox[i][j] == 1)
             {
-                if (tauler[fila][columna] == 0)
-                {
-                    tauler[fila][columna] = color;
-                }
-                else
+                if (m_tauler[posiciofigura[0] + i][posiciofigura[1] + j] != 0)
                 {
                     return false;
                 }
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
-bool Tauler::girValid(const Figura& figura) const
-{
-    Figura figuraGirada = figura;
-    figuraGirada.GirarFigura();
-
-    int posiciofigura[2];
-    int tamanyfigura[2];
-
-    posiciofigura[0] = figuraGirada.getPosicioActual(0);  // fila
-    posiciofigura[1] = figuraGirada.getPosicioActual(1);  // columna
-    tamanyfigura[0] = figuraGirada.getTamanyFigura(0);    // x
-    tamanyfigura[1] = figuraGirada.getTamanyFigura(1);    // y
-
-    for (int i = 0; i < tamanyfigura[0]; i++)
-    {
-        for (int j = 0; j < tamanyfigura[1]; j++)
-        {
-            int fila = posiciofigura[0] + i;
-            int columna = posiciofigura[1] + j;
-
-            if (fila < 0 || fila >= nFiles || columna < 0 || columna >= nColumnes)
-            {
-                return false;
+                 else
+                 {
+                    m_tauler[posiciofigura[0] + i][posiciofigura[1] + j] = color;
+                 }
             }
         }
     }
@@ -100,49 +80,49 @@ bool Tauler::girValid(const Figura& figura) const
     return true;
 }
 
-bool Tauler::movimentValid(const Figura& figura) const
+
+bool Tauler::Xoca(const Figura& figura)
 {
-    int posiciofigura[2];
-    int tamanyfigura[2];
-    posiciofigura[0] = figura.getPosicioActual(0);     // Nueva fila
-    posiciofigura[1] = figura.getPosicioActual(1);     // Nueva columna
-    tamanyfigura[0] = figura.getTamanyFigura(0);       // x
-    tamanyfigura[1] = figura.getTamanyFigura(1);       // y
+    bool xoca = false;
+    int pos[2] = figura.getPosicioActual();
+    int hitbox[MAX_AMPLADA][MAX_ALCADA];
+    figura.getHitboxFigura(hitbox);
 
-    for (int i = 0; i < tamanyfigura[0]; i++)
+    for (int i = 0; i < MAX_AMPLADA; i++)
     {
-        for (int j = 0; j < tamanyfigura[1]; j++)
+        for (int j = 0; j < MAX_ALCADA; j++)
         {
-            int fila = posiciofigura[0] + i;
-            int columna = posiciofigura[1] + j;
-
-            if (fila < 0 || fila >= nFiles || columna < 0 || columna >= nColumnes)
+            if (hitbox[i][j] == 1)
             {
-                return false;
+                if (m_tauler[pos[0] + i][pos[1] + j] != 0)
+                {
+                    bool xoca = true;
+                }
             }
         }
     }
-
-    return true;
+    return xoca;
 }
 
 void Tauler::eliminarFilesCompletes()
 {
-    int fila;
-    while ((fila = filaCompleta()) != -1)
+    int fila = filaCompleta();
+
+    while ((fila != -1)
     {
         eliminarFila(fila);
+        fila = filaCompleta();
     }
 }
 
 int Tauler::filaCompleta() const
 {
-    for (int i = 0; i < nFiles; i++)
+    for (int i = 0; i < MAX_FILES; i++)
     {
         bool comprovant = true;
-        for (int j = 0; j < nColumnes; j++)
+        for (int j = 2; j < MAX_COL + 2; j++)
         {
-            if (tauler[i][j] == 0)
+            if (m_tauler[i][j] == 0)
             {
                 comprovant = false;
                 break;
