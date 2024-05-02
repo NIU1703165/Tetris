@@ -101,50 +101,7 @@ void Figura::Inicialitza_Figura(TipusFigura t)
 
 void Figura::GirarFigura(int DirGir)
 {
-    if (m_TamanyFigura[0] == 4)
-    {
-        if (DirGir == 0) //Gir Horari
-        {
-            int c_matriu[m_TamanyFigura[0]][m_TamanyFigura[0]];
-
-            for (int i = 0; i < m_TamanyFigura[0]; i++)
-            {
-                for (int j = 0; j < m_TamanyFigura[0]; j++)
-                {
-                    c_matriu[i][j] = m_HitBoxFigura[i][j];
-                }
-            }
-
-            for (int i = 0; i < m_TamanyFigura[0]; i++)
-            {
-                for (int j = 0; j < m_TamanyFigura[0]; j++)
-                {
-                    m_HitBoxFigura[i][j] = c_matriu[(m_TamanyFigura[0] - 1) - j][i];
-                }
-            }
-        }
-        else //Gir AntiHorari
-        {
-            int c_matriu[m_TamanyFigura[0]][m_TamanyFigura[0]];
-
-            for (int i = 0; i < m_TamanyFigura[0]; i++)
-            {
-                for (int j = 0; j < m_TamanyFigura[0]; j++)
-                {
-                    c_matriu[i][j] = m_HitBoxFigura[i][j];
-                }
-            }
-
-            for (int i = 0; i < m_TamanyFigura[0]; i++)
-            {
-                for (int j = 0; j < m_TamanyFigura[0]; j++)
-                {
-                    m_HitBoxFigura[i][j] = c_matriu[j][(m_TamanyFigura[0] - 1) - i];
-                }
-            }
-        }
-    }
-    else
+    if (DirGir == 0) //Gir Horari
     {
         int c_matriu[m_TamanyFigura[0]][m_TamanyFigura[0]];
 
@@ -160,8 +117,29 @@ void Figura::GirarFigura(int DirGir)
         {
             for (int j = 0; j < m_TamanyFigura[0]; j++)
             {
-                m_HitBoxFigura[i][j] = c_matriu[m_TamanyFigura[0] - 1 - j][i];
+                m_HitBoxFigura[i][j] = c_matriu[(m_TamanyFigura[0] - 1) - j][i];
             }
+        }
+    }
+    else //Gir AntiHorari
+    {
+        int c_matriu[m_TamanyFigura[0]][m_TamanyFigura[0]];
+
+        for (int i = 0; i < m_TamanyFigura[0]; i++)
+        {
+            for (int j = 0; j < m_TamanyFigura[0]; j++)
+            {
+                c_matriu[i][j] = m_HitBoxFigura[i][j];
+            }
+        }
+
+        for (int i = 0; i < m_TamanyFigura[0]; i++)
+        {
+            for (int j = 0; j < m_TamanyFigura[0]; j++)
+            {
+                m_HitBoxFigura[i][j] = c_matriu[j][(m_TamanyFigura[0] - 1) - i];
+            }
+
         }
     }
 }
