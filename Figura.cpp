@@ -157,4 +157,4 @@ void Figura::BaixaFigura()
 void Figura::mouFigura(int Direccio)
 {
     m_Posicio_actual[1] += Direccio;
-}
+} 
