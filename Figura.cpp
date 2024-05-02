@@ -1,4 +1,4 @@
-﻿#include "Figura.h"
+#include "Figura.h"
 
 void Figura::FormaZero()
 {
@@ -13,7 +13,7 @@ void Figura::FormaZero()
 
 void Figura::Inicialitza_Figura_Tipus(TipusFigura t, int col, const int& fil)
 {
-    m_TpusFigura = t;
+    m_TipusFigura = t;
     m_Posicio_actual[0] = fil; // [0] = posicio_fila, [1] = posicio_columne;
     m_Posicio_actual[1] = col; // [0] = posicio_fila, [1] = posicio_columne;
     Inicialitza_Figura(t);
@@ -77,8 +77,8 @@ void Figura::Inicialitza_Figura(TipusFigura t)
         m_TamanyFigura[0] = 3;
         m_TamanyFigura[1] = 3;
         FormaZero();
+        m_HitBoxFigura[0][0] = 1;
         m_HitBoxFigura[0][1] = 1;
-        m_HitBoxFigura[1][0] = 1;
         m_HitBoxFigura[1][1] = 1;
         m_HitBoxFigura[1][2] = 1;
         m_ColorFigura = COLOR_VERMELL;
@@ -96,17 +96,6 @@ void Figura::Inicialitza_Figura(TipusFigura t)
     default:
         cout << "ERROR - Aquesta figura no existeix!" << endl;
         break;
-    }
-}
-
-void Figura::getHitboxFigura(hitbox[MAX_AMPLADA][MAX_ALCADA])
-{
-    for(int i = 0; i < MAX_AMPLADA; i++)
-    {
-       for(int j = 0; j < MAX_ALCADA; j++)
-        {
-            hitbox[i][j] = m_HitBoxFigura[i][j];
-        }
     }
 }
 
