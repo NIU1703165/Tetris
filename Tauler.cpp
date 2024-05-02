@@ -35,9 +35,9 @@ void Tauler::inicialitza(int taulerInicial[MAX_FILA][MAX_COL])
 
 void Tauler::eliminarFila(int fila)
 {
-    for (int i = fila; i > 0; --i)
+    for (int i = fila; i > 0; i--)
     {
-        for (int j = 0; j < MAX_COL ++j)
+        for (int j = 0; j < MAX_COL; j++)
         {
             m_tauler[i][j + 2] = m_tauler[i - 1][j + 2];
         }
@@ -45,58 +45,107 @@ void Tauler::eliminarFila(int fila)
 
     for (int j = 0; j < MAX_COL; j++)
     {
-        tauler[0][j] = 0;
+        m_tauler[0][j] = 0;
     }
 }
 
-bool Tauler::colocaFigura(const Figura& figura)
+int Tauler::getFilesCompletes() const
+{
+    int cont = 0;
+    for (int i = 0; i < MAX_FILA; i++)
+    {
+        bool comprovant = true;
+        for (int j = 2; j < MAX_COL + 2; j++)
+        {
+            if (m_tauler[i][j] == 0)
+            {
+                comprovant = false;
+                break;
+            }
+        }
+        if (comprovant)
+        {
+            cont++;
+        }
+    }
+    return cont;
+}
+
+ 
+void Tauler::colocaFigura(const Figura& figura)
 {
     int color = figura.getColor();
     int posiciofigura[2];
-    int hitbox[MAX_AMPLADA][MAX_ALCADA];
-    figura.getHitboxFigura(hitbox);
-
+    bool comprovant = true;
+    
+    int hitbox[figura.getTamanyFigura(0)][figura.getTamanyFigura(1)];
+    for(int i = 0; i < figura.getTamanyFigura(0); i++)
+    {
+       for(int j = 0; j < figura.getTamanyFigura(1); j++)
+       {
+           hitbox[i][j] = figura.getHitboxFigura(i, j);
+       }
+    }
+   
     posiciofigura[0] = figura.getPosicioActual(0);
     posiciofigura[1] = figura.getPosicioActual(1);
-
-    for (int i = 0; i < MAX_AMPLADA; i++)
+    
+    for (int i = 0; i < figura.getTamanyFigura(0); i++)
     {
-        for (int j = 0; j < MAX_ALCADA; j++)
+        for (int j = 0; j < figura.getTamanyFigura(1); j++)
         {
             if (hitbox[i][j] == 1)
             {
-                if (m_tauler[posiciofigura[0] + i][posiciofigura[1] + j] != 0)
+                if (m_tauler[posiciofigura[0] + i - 1][posiciofigura[1] + j + 1] != 0)
                 {
-                    return false;
+                    comprovant = false;
                 }
-                 else
-                 {
-                    m_tauler[posiciofigura[0] + i][posiciofigura[1] + j] = color;
-                 }
             }
         }
     }
-
-    return true;
+    
+    if(comprovant)
+    {
+       for (int i = 0; i < figura.getTamanyFigura(0); i++)
+       {
+          for (int j = 0; j < figura.getTamanyFigura(1); j++)
+          {
+            if (hitbox[i][j] == 1)
+            {
+               m_tauler[posiciofigura[0] + i - 1][posiciofigura[1] + j + 1] = color;
+            }
+          }
+       }
+    }
 }
 
 
-bool Tauler::Xoca(const Figura& figura)
+bool Tauler::Xoca(Figura figura)
 {
     bool xoca = false;
-    int pos[2] = figura.getPosicioActual();
-    int hitbox[MAX_AMPLADA][MAX_ALCADA];
-    figura.getHitboxFigura(hitbox);
-
-    for (int i = 0; i < MAX_AMPLADA; i++)
+    int pos[2];
+    pos[0] = figura.getPosicioActual(0);
+    pos[1] = figura.getPosicioActual(1);
+    
+    int hitbox[figura.getTamanyFigura(0)][figura.getTamanyFigura(1)];
+    for(int i = 0; i < figura.getTamanyFigura(0); i++)
     {
-        for (int j = 0; j < MAX_ALCADA; j++)
+       for(int j = 0; j < figura.getTamanyFigura(1); j++)
+       {
+           hitbox[i][j] = figura.getHitboxFigura(i, j);
+       }
+    }
+   
+
+    for (int i = 0; i < figura.getTamanyFigura(0); i++)
+    {
+        for (int j = 0; j < figura.getTamanyFigura(1); j++)
         {
             if (hitbox[i][j] == 1)
             {
-                if (m_tauler[pos[0] + i][pos[1] + j] != 0)
+                if (m_tauler[pos[0] + i -1][pos[1] + j + 1] != 0)
                 {
-                    bool xoca = true;
+                    xoca = true;
                 }
             }
         }
@@ -104,20 +153,10 @@ bool Tauler::Xoca(const Figura& figura)
     return xoca;
 }
 
-void Tauler::eliminarFilesCompletes()
-{
-    int fila = filaCompleta();
-
-    while ((fila != -1)
-    {
-        eliminarFila(fila);
-        fila = filaCompleta();
-    }
-}
 
 int Tauler::filaCompleta() const
 {
-    for (int i = 0; i < MAX_FILES; i++)
+    for (int i = 0; i < MAX_FILA; i++)
     {
         bool comprovant = true;
         for (int j = 2; j < MAX_COL + 2; j++)
@@ -134,4 +173,29 @@ int Tauler::filaCompleta() const
         }
     }
     return -1;
+}
+
+void Tauler::getTauler(int tauler[MAX_FILA][MAX_COL])
+{
+    for (int i = 0; i < MAX_FILA; i++)
+    {
+        for (int j = 0; j < MAX_COL; j++)
+        {
+            tauler[i][j] = m_tauler[i][j + 2];
+        }
+    }
+}
+
+void Tauler::ElimiarFilesComplertes()
+{
+    if(getFilesCompletes() > 0)
+    {
+        int fila = filaCompleta();
+        
+        while(fila != -1)
+        {
+            eliminarFila(fila);
+            fila = filaCompleta();
+        }
+    }
 }
