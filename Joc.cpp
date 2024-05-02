@@ -33,7 +33,7 @@ bool Joc::giraFigura(DireccioGir direccio)
 {
     m_Figura_a.GirarFigura(direccio);
 
-    bool girValid = m_Tauler.girValid(m_Figura_a);
+    bool girValid = m_Tauler.xoca(m_Figura_a);
     if (!girValid)
     {
         if (direccio == GIR_HORARI)
@@ -48,7 +48,7 @@ bool Joc::giraFigura(DireccioGir direccio)
 bool Joc::mouFigura(int direccio)
 {
     m_Figura_a.mouFigura(direccio);
-    bool movimentValid = m_Tauler.movimentValid(m_Figura_a);
+    bool movimentValid = m_Tauler.xoca(m_Figura_a);
     if (!movimentValid)
         m_Figura_a.mouFigura(-direccio);
     return movimentValid;
@@ -58,7 +58,7 @@ int Joc::baixaFigura()
 {
     int nFiles = 0;
     m_Figura_a.BaixaFigura();
-    if (!m_Tauler.movimentValid(m_Figura_a))
+    if (!m_Tauler.xoca(m_Figura_a))
     {
         m_Figura_a.PujaFigura();
         nFiles = m_Tauler.colocaFigura(m_Figura_a);
