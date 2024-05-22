@@ -3,6 +3,10 @@
 
 #include "Tauler.h"
 #include "Figura.h"
+#include "InfoJoc.h"
+#include "GraphicManager.h"
+
+
 #include <string>
 using namespace std;
 
@@ -14,6 +18,8 @@ public:
     bool mouFigura(int direccio);
     int baixaFigura();
     void escriuTauler(const string& nomFitxer);
+    void actualitza(double deltaTime);
+
 
 private:
     Tauler m_Tauler;
